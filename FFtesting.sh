@@ -29,11 +29,11 @@ for SIZE in "${MATRIX_SIZES[@]}"; do
       echo "Matrix Size = $SIZE, Threads = $T, Iteration = $i"
       
       # Option A: If your code reads OMP_NUM_THREADS (some FastFlow apps do):
-      export OMP_NUM_THREADS=$T
+      # export OMP_NUM_THREADS=$T
       # Option B: If your code takes the thread count as a second argument:
       # ./fastflow_wavefront $SIZE $T
       
-      time ./fastflow_wavefront $SIZE
+      time ./fastflow_wavefront $SIZE $T
     done
   done
 done

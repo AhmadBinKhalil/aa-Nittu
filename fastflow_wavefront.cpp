@@ -1,18 +1,22 @@
-// fastflow_wavefront.cpp
 #include <iostream>
 #include <cstdlib>
 #include <vector>
 #include <ff/parallel_for.hpp>  // FastFlow parallel_for
+
 using namespace std;
 
 int main(int argc, char* argv[]){
     // Read matrix size from the command line (default 1000)
     int n = (argc > 1) ? atoi(argv[1]) : 1000;
+    
+    // OPTIONAL: read number of threads (default 4, or some other value)
+    int numThreads = (argc > 2) ? atoi(argv[2]) : 4;
+
     // Allocate an n x n matrix initialized to 0.0
     vector<vector<double>> M(n, vector<double>(n, 0.0));
 
-    // FastFlow parallel_for instance
-    ff::ParallelFor pf;
+    // Create a ParallelFor object with numThreads workers
+    ff::ParallelFor pf(numThreads);
 
     // Process each diagonal (offset k=0,1,...,n-1)
     for (int k = 0; k < n; k++){
@@ -36,6 +40,7 @@ int main(int argc, char* argv[]){
 
     // For verification print one value.
     cout << "FastFlow wavefront computation finished." << endl;
+    cout << "Matrix size: " << n << ", Threads used: " << numThreads << endl;
     cout << "M[0][" << n-1 << "] = " << M[0][n-1] << endl;
     return 0;
 }
